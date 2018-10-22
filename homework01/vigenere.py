@@ -1,12 +1,12 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
-        >>> encrypt_vigenere("PYTHON", "A")
-        'PYTHON'
-        >>> encrypt_vigenere("python", "a")
-        'python'
-        >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-        'LXFOPVEFRNHR'
-        """
+    >>> encrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> encrypt_vigenere("python", "a")
+    'python'
+    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
+    'LXFOPVEFRNHR'
+    """
     ciphertext = ""
     n = int()
     m = int()
@@ -31,13 +31,13 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
 
 def decrypt_vigenere(cipehrtext: str, keyword: str) -> str:
     """
-        >>> decrypt_vigenere("PYTHON", "A")
-        'PYTHON'
-        >>> decrypt_vigenere("python", "a")
-        'python'
-        >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-        'ATTACKATDAWN'
-        """
+    >>> decrypt_vigenere("PYTHON", "A")
+    'PYTHON'
+    >>> decrypt_vigenere("python", "a")
+    'python'
+    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
+    'ATTACKATDAWN'
+    """
     plaintext = ""
     n = int()
     m = int()
