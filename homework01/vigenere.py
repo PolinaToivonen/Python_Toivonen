@@ -10,22 +10,23 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     ciphertext = ""
     n = int()
     m = int()
+    c = int(ord('A'))
     if len(keyword) < len(plaintext):
-        for j in range(len(plaintext)-len(keyword)):
+        for j in range(len(plaintext) - len(keyword)):
             keyword += keyword[j]
     for i in range(len(plaintext)):
         n = ord(plaintext[i])
         m = ord(keyword[i])
-        if (n > 64) and (n < 91):
-            if (m - 65 + n) < 91:
-                ciphertext += chr(m - 65 + n)
+        if (n >= ord('A')) and (n <= ord('Z')):
+            if (m - ord('A') + n) <= ord('Z'):
+                ciphertext += chr(m - c + n)
             else:
-                ciphertext += chr((m - 65 + n) % 91 + 65)
+                ciphertext += chr((m + n) % (1 + ord('Z')))
         else:
-            if (m - 97 + n) < 123:
-                ciphertext += chr(m - 97 + n)
+            if (m - ord('a') + n) <= ord('z'):
+                ciphertext += chr(m - ord('a') + n)
             else:
-                ciphertext += chr((m - 97 + n) % 97 + 97)
+                ciphertext += chr((m + n) % ord('a'))
     return ciphertext
 
 
@@ -42,19 +43,19 @@ def decrypt_vigenere(cipehrtext: str, keyword: str) -> str:
     n = int()
     m = int()
     if len(keyword) < len(cipehrtext):
-        for j in range(len(cipehrtext)-len(keyword)):
+        for j in range(len(cipehrtext) - len(keyword)):
             keyword += keyword[j]
     for i in range(len(cipehrtext)):
         n = ord(cipehrtext[i])
         m = ord(keyword[i])
-        if (n > 64) and (n < 91):
+        if (n >= ord('A')) and (n <= ord('Z')):
             if n >= m:
-                plaintext += chr(n - m + 65)
+                plaintext += chr(n - m + ord('A'))
             else:
-                plaintext += chr(91 - (m - n))
+                plaintext += chr(ord('Z') + 1 - (m - n))
         else:
             if n >= m:
-                plaintext += chr(n - m + 97)
+                plaintext += chr(n - m + ord('a'))
             else:
-                plaintext += chr(91 - (m-n))
+                plaintext += chr(ord('Z') + 1 - (m - n))
     return plaintext
