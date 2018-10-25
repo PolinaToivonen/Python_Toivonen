@@ -11,11 +11,12 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    p = True
-    for i in range(2, round(sqrt(n)) + 1):
+    prime = True
+    for i in range(2, n // 2 + 1):
         if n % i == 0:
-            p = False
-    return p
+            prime = False
+
+    return prime
 
 
 def gcd(a: int, b: int) -> int:
@@ -38,12 +39,24 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
-    d = e % phi
-    for x in range(1, phi):
-        if ((e * x) % phi == 1):
-            return x
-    return d
+    data = []
+    m = phi
+    while True:
+        mas = []
+        mas.append(phi // e)
+        mas.append(0)
+        mas.append(0)
+        data.append(mas)
+        if phi % e == 0:
+            break
+        c = phi % e
+        phi = e
+        e = c
+    data[len(data) - 1][2] = 1
+    for i in range(len(data) - 1, 0, -1):
+        data[i - 1][2] = data[i][1] - data[i][2] * data[i - 1][0]
+        data[i - 1][1] = data[i][2]
+    return (data[0][2] + m) % m
 
 
 def generate_keypair(p: int, q: int) -> int:
