@@ -8,9 +8,6 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    n = int()
-    m = int()
-    c = int(ord('A'))
     if len(keyword) < len(plaintext):
         for j in range(len(plaintext) - len(keyword)):
             keyword += keyword[j]
@@ -19,7 +16,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         m = ord(keyword[i])
         if (n >= ord('A')) and (n <= ord('Z')):
             if (m - ord('A') + n) <= ord('Z'):
-                ciphertext += chr(m - c + n)
+                ciphertext += chr(m - ord('А') + n)
             else:
                 ciphertext += chr((m + n) % (1 + ord('Z')))
         else:
@@ -40,8 +37,6 @@ def decrypt_vigenere(cipehrtext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    n = int()
-    m = int()
     if len(keyword) < len(cipehrtext):
         for j in range(len(cipehrtext) - len(keyword)):
             keyword += keyword[j]
