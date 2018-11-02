@@ -66,9 +66,9 @@ def generate_keypair(p: int, q: int) -> int:
     elif p == q:
         raise ValueError('p and q cannot be equal')
 
-    n = pq
+    n = p*q
 
-    phi = (p - 1)(q - 1)
+    phi = (p - 1)*(q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
