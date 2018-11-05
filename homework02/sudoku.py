@@ -72,7 +72,7 @@ def get_block(values: list, pos: tuple) -> list:
     return [values[a + r][b + w] for r in range(3) for w in range(3)]
 
 
-def find_empty_positions(grid: list):->tuple:
+def find_empty_positions(grid: list)->tuple:
     """ Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
     (0, 2)
@@ -104,7 +104,7 @@ def find_possible_values(grid: list, pos: tuple) -> set:
     return all_num - check_row - check_col - check_block
 
 
-def solve(grid: list):-> list:
+def solve(grid: list)-> list:
     """ Решение пазла, заданного в grid """
     """ Как решать Судоку?
         1. Найти свободную позицию
