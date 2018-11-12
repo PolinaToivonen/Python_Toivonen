@@ -85,6 +85,7 @@ def find_empty_positions(grid: list)->tuple:
         for w in range(len(grid)):
             if grid[r][w] == '.':
                 return r, w
+    return(-1,-1)
 
 
 def find_possible_values(grid: list, pos: tuple) -> set:
