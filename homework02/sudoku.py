@@ -127,6 +127,7 @@ def solve(grid: list)-> list:
             return s
         else:
             grid[r][w] = '.'
+    return[]        
 
 
 def check_solution(solution: list) -> bool:
