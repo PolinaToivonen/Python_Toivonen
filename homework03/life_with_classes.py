@@ -101,7 +101,7 @@ class CellList:
                     neighbours.append(self.grid[i][j])
         return neighbours
 
-    def update(self):
+    def update(self): -> list:
         new_clist = deepcopy(self.grid)
         for cell in self:
             neighbours = self.get_neighbours(cell)
