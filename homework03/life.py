@@ -37,7 +37,7 @@ class GameOfLife:
         self.screen.fill(pygame.Color('white'))
         running = True
 
-        self.clist = game.cell_list()
+        self.clist = self.cell_list()
         while running:
             for event in pygame.event.get():
                 if event.type == QUIT:
