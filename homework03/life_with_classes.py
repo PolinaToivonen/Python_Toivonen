@@ -23,7 +23,7 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-    def draw_grid(self):
+    def draw_grid(self) -> None:
         """ Отрисовать сетку """
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
@@ -32,7 +32,7 @@ class GameOfLife:
             pygame.draw.line(self.screen, pygame.Color('black'),
                              (0, y), (self.width, y))
 
-    def run(self):
+    def run(self) -> None:
         """ Запустить игру """
         pygame.init()
         clock = pygame.time.Clock()
@@ -58,7 +58,7 @@ class GameOfLife:
             clock.tick(self.speed)
         pygame.quit()
 
-    def draw_cell_list(self, clist) -> None:
+    def draw_cell_list(self, clist:list) -> None:
 
         for cell in clist:
 
@@ -73,7 +73,7 @@ class GameOfLife:
 
 class Cell:
 
-    def __init__(self, row, col, state=False):
+    def __init__(self, row: int, col: int, state=False) -> None:
         self.row = row
         self.col = col
         self.state = state
@@ -84,7 +84,7 @@ class Cell:
 
 class CellList:
 
-    def __init__(self, nrows: int, ncols: int, randomize=True):
+    def __init__(self, nrows: int, ncols: int, randomize=True) -> None:
         self.nrows = nrows
         self.ncols = ncols
         if randomize:
@@ -120,7 +120,7 @@ class CellList:
         self.der = 0
         return(self)
 
-    def __next__(self):
+    def __next__(self) -> Cell:
         if self.dew < self.nrows:
             cell = self.grid[self.dew][self.der]
             self.der += 1
@@ -131,7 +131,7 @@ class CellList:
         else:
             raise StopIteration
 
-    def __str__(self):
+    def __str__(self) -> str:
         str = ""
         for i in range(self.nrows):
             for j in range(self.ncols):
@@ -143,7 +143,7 @@ class CellList:
         return str
 
     @classmethod
-    def from_file(cls, filename):
+    def from_file(cls, filename: str):
         grid = []
         with open(filename) as f:
             for i, line in enumerate(f):
