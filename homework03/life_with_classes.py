@@ -59,14 +59,10 @@ class GameOfLife:
         pygame.quit()
 
     def draw_cell_list(self, clist:list) -> None:
-
         for cell in clist:
-
             color_cell = pygame.Color('white')
-
             if cell.is_alive():
                 color_cell = pygame.Color('green')
-
             rect = Rect(cell.row * self.cell_size+1, cell.col * self.cell_size+1, self.cell_size-1, self.cell_size-1)
             pygame.draw.rect(self.screen, color_cell, rect)
 
