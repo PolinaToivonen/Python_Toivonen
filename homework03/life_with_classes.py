@@ -112,17 +112,17 @@ class CellList:
         return self
 
     def __iter__(self):
-        self.dew = 0
-        self.der = 0
+        self.element = 0
+        self.col_number = 0
         return(self)
 
     def __next__(self) -> Cell:
-        if self.dew < self.nrows:
-            cell = self.grid[self.dew][self.der]
-            self.der += 1
-            if (self.der == self.ncols):
-                self.der = 0
-                self.dew += 1
+        if self.element < self.nrows:
+            cell = self.grid[self.element][self.col_number]
+            self.col_number += 1
+            if (self.col_number == self.ncols):
+                self.col_number = 0
+                self.element += 1
             return cell
         else:
             raise StopIteration
