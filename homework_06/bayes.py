@@ -7,7 +7,7 @@ class NaiveBayesClassifier:
     def __init__(self, alpha=1):
         self.alpha = aplha
 
-    def fit(self, X, y):
+    def fit(self, x, y):
         """ Fit Naive Bayes classifier according to X, y. """
         self.labels = [i for i in set(y)]
         self.labels.sort()
@@ -40,7 +40,7 @@ class NaiveBayesClassifier:
                                        (words_on_labels[col - classes - 1] + self.alpha *
                                         len(self.attrs[0]))
 
-    def predict(self, X):
+    def predict(self, x):
         """ Perform classification on an array of test vectors X. """
         labels = []
         classes = len(self.labels)
@@ -57,7 +57,7 @@ class NaiveBayesClassifier:
                     break
         return labels
 
-    def score(self, X_test, y_test):
+    def score(self, x_test, y_test):
         """ Returns the mean accuracy on the given test data and labels. """
         prediction = self.predict(x_test)
         count = 0
