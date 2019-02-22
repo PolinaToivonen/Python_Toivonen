@@ -5,8 +5,9 @@ from scraputils import split_row
 class NaiveBayesClassifier:
 
     def __init__(self, alpha=1):
-        self.alpha = aplha
+        self.alpha = alpha
 
+    
     def fit(self, x, y):
         """ Fit Naive Bayes classifier according to X, y. """
         self.labels = [i for i in set(y)]
