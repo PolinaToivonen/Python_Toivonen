@@ -21,14 +21,3 @@ class News(Base):
     label = Column(String)
 
 Base.metadata.create_all(bind=engine)
-
-
-'''def add_news():
-    s = session()
-    data = get_news("https://news.ycombinator.com", n_pages=10)
-    for i in range(0, len(data)):
-        s.add(News(**data[i]))
-        s.commit()
-
-
-add_news()'''
