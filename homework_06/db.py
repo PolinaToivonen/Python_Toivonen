@@ -10,6 +10,7 @@ session = sessionmaker(bind=engine)
 
 
 class News(Base):
+    """ Class News """
     __tablename__ = "news"
     id = Column(Integer, primary_key=True)
     title = Column(String)
@@ -18,5 +19,7 @@ class News(Base):
     comments = Column(Integer)
     points = Column(Integer)
     label = Column(String)
+    cleaned = Column(String)
+
 
 Base.metadata.create_all(bind=engine)
