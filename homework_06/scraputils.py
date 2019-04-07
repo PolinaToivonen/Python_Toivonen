@@ -1,54 +1,75 @@
+from typing import List, Dict, Union
+import time
 import requests
 from bs4 import BeautifulSoup
 
 
-def extract_news(parser):
+def extract_news(parser: type) -> List[Dict[str, Union[str, int]]]:
     """ Extract news from a given web page """
     news_list = []
-    first_row = parser.find_all('tr', attrs={'class': 'athing'})
-    second_row = parser.find_all('td', attrs={'class': 'subtext'})
-    n = 0
-    while True:
-        try:
-            author = second_row[n].find('a', attrs={'class': 'hnuser'}).get_text()
-            comments = second_row[n].find_all('a')[-1].get_text()
-            points = second_row[n].findAll('span')[0].text.split()[0]
-            title = first_row[n].find('a', attrs={'class': 'storylink'}).get_text()
-            url = first_row[n].findAll('a')[1]['href']
-            news_list.append({
-                'author': author,
-                'comments': 0 if 'discuss' in comments else int(comments.split('\xa0')[0]),
-                'points': int(points),
-                'title': title,
-                'url': url if 'http' in url else None
-                })
-            n += 1
-        except:
-            break
+    tbl_list = parser.table.findAll('table')
+    title_list = tbl_list[1].find_all("a", attrs={"class": "storylink"})
+    url_list = ['https://news.ycombinator.com/' + title.get('href')
+                if title.get('href').startswith('item?')
+                else title.get('href')
+                for title in title_list]
+    title_list = [title.text for title in title_list]
+    user_list = tbl_list[1].find_all("a", attrs={"class": "hnuser"})
+    user_list = [user.text for user in user_list]
+    point_list = tbl_list[1].find_all("span", attrs={"class": "score"})
+    point_list = [int(''.join(filter(str.isdigit, point.text))) for point in point_list]
+    sub_list = tbl_list[1].find_all("td", attrs={"class": "subtext"})
+    comment_list = []
+    for sub in sub_list:
+        words_list = sub.text.split()
+        if words_list.pop() == 'discuss':
+            comment_list.append(0)
+            continue
+        comment_list.append(int(words_list.pop()))
+    for user, comment, point, title, url in zip(user_list,
+                                                comment_list,
+                                                point_list,
+                                                title_list,
+                                                url_list):
+        new = {}
+        new['author'] = user
+        new['comments'] = comment
+        new['points'] = point
+        new['title'] = title
+        new['url'] = url
+        new['cleaned'] = ' '.join((title,
+                                   user,
+                                   url.split('//')[-1].split('/')[0].replace('.', '')))
+        news_list.append(new)
     return news_list
 
 
-def extract_next_page(parser):
+def extract_next_page(parser: type) -> str:
     """ Extract next page URL """
-    try:
-        return parser.findAll('table')[2].findAll('tr')[-1].a['href']
-    except TypeError:
-        return None
+    tbl_list = parser.table.findAll('table')
+    title_list = tbl_list[1].find_all("a", attrs={"class": "morelink"})
+    next_page = title_list[0].get('href')
+    return next_page
 
 
-def get_news(url, n_pages=1):
+def get_news(url: str, n_pages: int = 1) -> List[Dict[str, Union[str, int]]]:
     """ Collect news from a given web page """
     news = []
+    i = 0
     while n_pages:
         print("Collecting data from page: {}".format(url))
         response = requests.get(url)
-        soup = BeautifulSoup(response.text, "html5lib")
+        print(response.ok, response.status_code)
+        if not response.ok:
+            i += 1
+            pause = (2 ** i) * 0.5
+            time.sleep(pause)
+            continue
+        soup = BeautifulSoup(response.text, "html.parser")
         news_list = extract_news(soup)
         next_page = extract_next_page(soup)
-        if type(next_page) == str:
-            url = "https://news.ycombinator.com/" + next_page
-            news.extend(news_list)
-            n_pages -= 1
-        else:
-            n_pages = False
+        url = "https://news.ycombinator.com/" + next_page
+        news.extend(news_list)
+        n_pages -= 1
+        i = 0
     return news
